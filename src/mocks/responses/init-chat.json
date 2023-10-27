@@ -1,0 +1,14 @@
+{
+  "data": {
+    "init_chat": {
+      "id": "7c3a4f96-9508-4a12-8f8e-b482fb458282",
+      "status": "OPEN",
+      "client": "anonymous",
+      "customerSupport": "",
+      "lastMessage": "Hey!",
+      "created": "2021-11-09T15:21:24.803990629Z",
+      "ended": ""
+    }
+  },
+  "error": null
+}

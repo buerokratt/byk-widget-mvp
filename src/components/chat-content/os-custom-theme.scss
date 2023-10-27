@@ -1,0 +1,23 @@
+@import '../../scss/main';
+.os-custom-theme {
+  > .os-scrollbar {
+    > .os-scrollbar-track {
+      > .os-scrollbar-handle {
+        background: $color-scrollbar-normal;
+        &.active {
+          background: $color-scrollbar-active;
+        }
+      }
+    }
+  }
+  > .os-scrollbar:hover {
+    > .os-scrollbar-track {
+      > .os-scrollbar-handle {
+        background: $color-scrollbar-hover;
+        &.active {
+          background: $color-scrollbar-active;
+        }
+      }
+    }
+  }
+}

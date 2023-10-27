@@ -1,0 +1,119 @@
+{
+  "name": "byk-widget",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "@babel/runtime": "^7.12.13",
+    "@reduxjs/toolkit": "^1.6.2",
+    "@types/styled-components": "^5.1.19",
+    "axios": "^0.22.0",
+    "classnames": "^2.3.1",
+    "cross-env": "^7.0.3",
+    "framer-motion": "4.1.11-beta.5",
+    "i18next": "^21.2.4",
+    "i18next-browser-languagedetector": "^6.1.2",
+    "linkify-react": "^3.0.3",
+    "linkifyjs": "^3.0.3",
+    "luxon": "^2.2.0",
+    "msw": "^0.35.0",
+    "overlayscrollbars": "^1.13.1",
+    "overlayscrollbars-react": "^0.2.3",
+    "primeicons": "^4.1.0",
+    "primereact": "^6.6.0",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2",
+    "react-i18next": "^11.14.2",
+    "react-redux": "^7.2.5",
+    "react-scripts": "5.0.1",
+    "react-transition-group": "^4.4.2",
+    "redux": "^4.1.2",
+    "resolve-url-loader": "^4.0.0",
+    "sass": "^1.44.0",
+    "styled-components": "^5.3.3",
+    "web-vitals": "^1.1.2"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.15.5",
+    "@babel/preset-env": "^7.15.6",
+    "@babel/preset-react": "^7.14.5",
+    "@babel/preset-typescript": "^7.15.0",
+    "@svgr/webpack": "^6.2.1",
+    "@testing-library/dom": "^8.10.1",
+    "@testing-library/jest-dom": "^5.15.0",
+    "@testing-library/react": "^12.1.2",
+    "@testing-library/react-hooks": "^7.0.2",
+    "@testing-library/user-event": "^12.8.3",
+    "@types/jest": "^27.0.2",
+    "@types/luxon": "^2.0.8",
+    "@types/node": "^12.20.28",
+    "@types/overlayscrollbars": "^1.12.1",
+    "@types/react": "^17.0.27",
+    "@types/react-dom": "^17.0.9",
+    "@types/redux-mock-store": "^1.0.3",
+    "@typescript-eslint/eslint-plugin": "^5.25.0",
+    "@typescript-eslint/parser": "^5.25.0",
+    "clean-webpack-plugin": "^3.0.0",
+    "css-loader": "^5.0.2",
+    "eslint": "^8.15.0",
+    "eslint-config-airbnb": "^18.2.1",
+    "eslint-config-prettier": "^8.3.0",
+    "eslint-config-react-app": "7.0.1",
+    "husky": "^7.0.0",
+    "prettier": "2.4.1",
+    "sass-loader": "^10.2.0",
+    "style-loader": "^2.0.0",
+    "svg-url-loader": "^7.1.1",
+    "ts-loader": "^8.3.0",
+    "typescript": "4.4.4",
+    "url-loader": "^4.1.1",
+    "webpack": "5.72.1",
+    "webpack-cli": "^4.9.2"
+  },
+  "scripts": {
+    "start": "cross-env PORT=3003 react-scripts start",
+    "build": "react-scripts build",
+    "test": "cross-env CI=true react-scripts test",
+    "test:watch": "react-scripts test",
+    "test:coverage": "cross-env CI=true npm run test -- --env=jsdom --coverage",
+    "lint": "eslint src --ext .js,.ts,.jsx,.tsx",
+    "lint:fix": "npm run lint -- --fix",
+    "prettier:check": "prettier --check \"{,src/**/,webpack/}*.{json,yml,html,js,ts,tsx,css,scss}\"",
+    "prettier:format": "prettier --write \"{,src/**/,webpack/}*.{json,yml,html,js,ts,tsx,css,scss}\"",
+    "prepare": "husky install && chmod a+x .husky/pre-push .husky/pre-commit",
+    "webpack": "webpack"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version",
+      "last 1 edge version"
+    ]
+  },
+  "jest": {
+    "collectCoverageFrom": [
+      "src/**/*.{js,jsx,ts,tsx}",
+      "!<rootDir>/node_modules/"
+    ],
+    "coveragePathIgnorePatterns": [
+      "<rootDir>/src/index.tsx",
+      "<rootDir>/src/i18n.ts",
+      "<rootDir>/src/mocks"
+    ],
+    "coverageThreshold": {
+      "global": {
+        "functions": 80,
+        "lines": 80
+      }
+    },
+    "coverageReporters": [
+      "text",
+      "lcov"
+    ]
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "data": {
+    "get_messages_by_chat_id": [
+      {
+        "id": "_8jpBH0BzkjQNNjyxHAI",
+        "content": "Test",
+        "created": "2021-11-09T13:36:08.711679108Z",
+        "intents": "[]",
+        "authorTimestamp": "2021-11-09T13:36:08.656Z",
+        "client": "anonymous",
+        "event": "",
+        "chatId": "f548dd73-9a27-43b6-8f6e-49adad9c3dcc"
+      }
+    ]
+  },
+  "error": null
+}

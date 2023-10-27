@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32">
+  <g transform="translate(-118 -259)">
+    <rect width="32" height="32" transform="translate(118 259)" fill="none"/>
+    <g transform="translate(3.444 0.379)">
+      <path
+        d="M35.441,15.56c.311,4.244.78,7.97-.076,10.53C33.1,32.9,25.228,37,25.228,37h0s-7.873-4.1-10.137-10.889c-.856-2.56-.386-6.286-.076-10.53L25.228,13,32.5,14.822"
+        transform="translate(104.951 249.621)" fill="none" stroke="#fff" stroke-linecap="round" stroke-linejoin="round" stroke-width="1"/>
+      <path d="M15.18,19.543,25.393,16.99l7.549,1.891" transform="translate(104.787 248.398)" fill="none" stroke="#fff" stroke-linecap="round"
+            stroke-linejoin="round" stroke-width="1"/>
+      <line transform="translate(130.179 276.077)" fill="none" stroke="#fff" stroke-linecap="round" stroke-linejoin="round" stroke-width="1"/>
+      <path d="M30.23,28.75h3.464v2.422" transform="translate(100.122 244.753)" fill="none" stroke="#fff" stroke-linecap="round" stroke-linejoin="round"
+            stroke-width="1"/>
+      <path d="M30.92,27.313v-.69a2.553,2.553,0,1,0-5.106,0v.69H24.73v5.224H32" transform="translate(101.812 246.19)" fill="none" stroke="#fff"
+            stroke-linecap="round" stroke-linejoin="round" stroke-width="1"/>
+    </g>
+  </g>
+</svg>

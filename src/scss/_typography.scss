@@ -1,0 +1,23 @@
+@font-face {
+  font-family: 'Aino Regular';
+  src: url('../static/aino-fonts/Aino_31_170411-Regular.otf'), url('../static/aino-fonts/Aino_31_170411-Regular.woff2') format('woff2'),
+    url('../static/aino-fonts/Aino_31_170411-Regular.woff') format('woff');
+}
+
+@font-face {
+  font-family: 'Aino Bold';
+  src: url('../static/aino-fonts/Aino_31_170411-Bold.otf'), url('../static/aino-fonts/Aino_31_170411-Bold.woff2') format('woff2'),
+    url('../static/aino-fonts/Aino_31_170411-Bold.woff') format('woff');
+}
+
+@font-face {
+  font-family: 'Aino Headline';
+  src: url('../static/aino-fonts/Aino-Headline.otf'), url('../static/aino-fonts/Aino-Headline.woff2') format('woff2'),
+    url('../static/aino-fonts/Aino-Headline.woff') format('woff');
+}
+
+$font-title: 'Aino Headline', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans',
+  'Helvetica Neue', sans-serif;
+
+$font-chat: 'Aino Regular', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans',
+  'Helvetica Neue', sans-serif; ;
