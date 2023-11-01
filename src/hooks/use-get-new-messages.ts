@@ -21,12 +21,14 @@ const useGetNewMessages = (): void => {
         dispatch(handleStateChangingEventMessages(stateChangingEventMessages));
     };
 
-    const event = sse(
+    const events = sse(
       `${RUUTER_ENDPOINTS.GET_NEW_MESSAGES}?chatId=${chatId}&timeRangeBegin=${lastReadMessageTimestamp.split('+')[0]}`,
       onMessage
     );
 
-    return () => event.close();
+    return () => {
+      events.close();
+    };
   }, [dispatch, lastReadMessageTimestamp, chatId, isChatEnded]);
 };
 
