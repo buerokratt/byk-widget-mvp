@@ -13,11 +13,11 @@ const sse = <T>(url: string, onMessage: (data: T) => void): EventSource => {
       if (ruuterResponse?.data) 
         onMessage(Object.values(ruuterResponse.data)[0] as T);
     }
-  }
+  };
 
   eventSource.onerror = () => {
     console.error('SSE error');
-  }
+  };
 
   return eventSource;
 }
