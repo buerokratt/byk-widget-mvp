@@ -2,7 +2,7 @@ import { motion } from 'framer-motion';
 import React, { memo, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import useChatSelector from '../../hooks/use-chat-selector';
-import { FEEDBACK_CONFIRMATION_TIMEOUT } from '../../constants';
+import { FEEDBACK_CONFIRMATION_TIMEOUT, CHAT_MODES } from '../../constants';
 import ChatContent from '../chat-content/chat-content';
 import ChatHeader from '../chat-header/chat-header';
 import ChatKeyPad from '../chat-keypad/chat-keypad';
@@ -24,7 +24,7 @@ const Chat = (): JSX.Element => {
   const [showFeedbackResult, setShowFeedbackResult] = useState(false);
   const { t } = useTranslation();
   const { isAuthenticated } = useAuthenticationSelector();
-  const { isChatEnded, chatId, messageQueue, estimatedWaiting, showContactForm, customerSupportId, feedback, messages } = useChatSelector();
+  const { isChatEnded, chatId, messageQueue, estimatedWaiting, showContactForm, customerSupportId, feedback, messages, chatMode, } = useChatSelector();
 
   useEffect(() => {
     if (feedback.isFeedbackRatingGiven && feedback.isFeedbackMessageGiven && !feedback.isFeedbackConfirmationShown) {
@@ -59,7 +59,7 @@ const Chat = (): JSX.Element => {
         ) : (
           <>
             {!showWidgetDetails && !showContactForm && !feedback.isFeedbackConfirmationShown && isChatEnded && chatId && <ChatFeedback />}
-            {!showWidgetDetails && !showContactForm && !feedback.isFeedbackConfirmationShown && <ChatKeyPad />}
+            {!showWidgetDetails && !showContactForm && !feedback.isFeedbackConfirmationShown && chatMode === CHAT_MODES.FREE && <ChatKeyPad />}
             <ConfirmationModal />
           </>
         )}

@@ -23,6 +23,11 @@ export enum CHAT_STATUS {
   OPEN = 'OPEN',
 }
 
+export enum CHAT_MODES {
+  FLOW = 'flow',
+  FREE = 'free',
+}
+
 export enum CHAT_EVENTS {
   ANSWERED = 'answered',
   TERMINATED = 'terminated',

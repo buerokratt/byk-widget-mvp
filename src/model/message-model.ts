@@ -2,6 +2,7 @@ export interface Message {
   chatId: string | null;
   id?: string;
   content?: string;
+  buttons?: string;
   event?: string;
   rating?: string;
   authorId?: string;
