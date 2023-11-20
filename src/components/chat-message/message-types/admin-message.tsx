@@ -46,7 +46,7 @@ const AdminMessage = ({ message }: { message: Message }): JSX.Element => {
               message.content?.length !== undefined && message.content?.length > MAXIMUM_MESSAGE_TEXT_LENGTH_FOR_ONE_ROW ? styles.column : styles.row,
             )}
           >
-            {message.event !== CHAT_EVENTS.GREETING && (
+            {message.event !== CHAT_EVENTS.GREETING && !message.buttons && (
               <div>
                 <button
                   type="button"
