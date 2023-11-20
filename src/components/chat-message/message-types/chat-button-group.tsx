@@ -27,7 +27,7 @@ const ChatButtonGroup = ({ message }: { message: Message }): JSX.Element => {
   const addNewMessageToState = (buttonPayload: string): void => {
     const message: Message = {
       chatId,
-      content: encodeURIComponent(buttonPayload),
+      content: buttonPayload,
       authorTimestamp: new Date().toISOString(),
       authorRole: AUTHOR_ROLES.END_USER,
     };
@@ -52,6 +52,7 @@ const ChatButtonGroup = ({ message }: { message: Message }): JSX.Element => {
     <div className={styles.buttonsRow}>
       {parsedButtons?.map(({ title, payload }) => (
         <button
+          key={payload}
           type="button"
           className={styles['action-button']}
           onClick={() => addNewMessageToState(payload)}
