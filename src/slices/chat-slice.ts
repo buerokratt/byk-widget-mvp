@@ -223,8 +223,10 @@ export const chatSlice = createSlice({
       state.messages.push(...receivedMessages);
       setToSessionStorage('newMessagesAmount', state.newMessagesAmount);
 
-      state.chatMode = receivedMessages[receivedMessages.length - 1]?.buttons
-        ? CHAT_MODES.FLOW : CHAT_MODES.FREE;
+      if(receivedMessages && receivedMessages.length > 0){
+        state.chatMode = receivedMessages[receivedMessages.length - 1]?.buttons
+          ? CHAT_MODES.FLOW : CHAT_MODES.FREE;
+      }
     },
     handleStateChangingEventMessages: (state, action: PayloadAction<Message[]>) => {
       action.payload.forEach((msg) => {
@@ -268,6 +270,11 @@ export const chatSlice = createSlice({
       if (!action.payload) return;
       state.lastReadMessageTimestamp = new Date().toISOString();
       state.messages = action.payload;
+
+      if(state.messages && state.messages.length > 0){
+        state.chatMode = state.messages[state.messages.length - 1]?.buttons
+          ? CHAT_MODES.FLOW : CHAT_MODES.FREE;
+      }
     });
     builder.addCase(getGreeting.fulfilled, (state, action) => {
       if (!action.payload.isActive) return;
