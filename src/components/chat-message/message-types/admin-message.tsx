@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { motion } from 'framer-motion';
 import classNames from 'classnames';
 import { Message } from '../../../model/message-model';
@@ -10,6 +10,7 @@ import Thumbs from '../../../static/icons/thumbs.svg';
 import { sendMessageWithRating, updateMessage } from '../../../slices/chat-slice';
 import { useAppDispatch } from '../../../store';
 import ChatButtonGroup from "./chat-button-group";
+import { parseButtons } from '../../../utils/chat-utils';
 
 const leftAnimation = {
   animate: { opacity: 1, x: 0 },
@@ -29,6 +30,10 @@ const AdminMessage = ({ message }: { message: Message }): JSX.Element => {
     dispatch(sendMessageWithRating(updatedMessage));
   };
 
+  const hasButtons = useMemo(() => {
+    return parseButtons(message).length > 0;
+  }, [message.buttons]);
+  
   return (
     <motion.div animate={leftAnimation.animate} initial={leftAnimation.initial} transition={leftAnimation.transition}>
       <div className={classNames(styles.message, styles.admin)}>
@@ -46,7 +51,7 @@ const AdminMessage = ({ message }: { message: Message }): JSX.Element => {
               message.content?.length !== undefined && message.content?.length > MAXIMUM_MESSAGE_TEXT_LENGTH_FOR_ONE_ROW ? styles.column : styles.row,
             )}
           >
-            {message.event !== CHAT_EVENTS.GREETING && !message.buttons && (
+            {message.event !== CHAT_EVENTS.GREETING && !hasButtons && (
               <div>
                 <button
                   type="button"
@@ -70,7 +75,7 @@ const AdminMessage = ({ message }: { message: Message }): JSX.Element => {
             )}
           </div>
         </div>
-        {message.buttons && <ChatButtonGroup message={message} />}
+        {hasButtons && <ChatButtonGroup message={message} />}
       </div>
     </motion.div>
   );
