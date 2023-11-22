@@ -13,16 +13,22 @@ const useGetNewMessages = (): void => {
 
   useEffect(() => {
     if (!chatId || isChatEnded || !lastReadMessageTimestamp) return undefined;
-    const sseInstance = sse(`${RUUTER_ENDPOINTS.GET_NEW_MESSAGES}?chatId=${chatId}&timeRangeBegin=${lastReadMessageTimestamp.split('+')[0]}`);
+    
+    const onMessage = (messages: Message[]) => {
+        const newDisplayableMessages = messages.filter((msg) => msg.event !== CHAT_EVENTS.GREETING);
+        const stateChangingEventMessages = messages.filter((msg) => isStateChangingEventMessage(msg));
+        dispatch(addMessagesToDisplay(newDisplayableMessages));
+        dispatch(handleStateChangingEventMessages(stateChangingEventMessages));
+    };
 
-    sseInstance.onMessage((messages: Message[]) => {
-      const newDisplayableMessages = messages.filter((msg) => msg.event !== CHAT_EVENTS.GREETING);
-      const stateChangingEventMessages = messages.filter((msg) => isStateChangingEventMessage(msg));
-      dispatch(addMessagesToDisplay(newDisplayableMessages));
-      dispatch(handleStateChangingEventMessages(stateChangingEventMessages));
-    });
+    const events = sse(
+      `${RUUTER_ENDPOINTS.GET_NEW_MESSAGES}?chatId=${chatId}&timeRangeBegin=${lastReadMessageTimestamp.split('+')[0]}`,
+      onMessage
+    );
 
-    return () => sseInstance.close();
+    return () => {
+      events.close();
+    };
   }, [dispatch, lastReadMessageTimestamp, chatId, isChatEnded]);
 };
 
