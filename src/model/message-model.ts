@@ -16,3 +16,8 @@ export interface Message {
     forwarding_validation?: string;
   };
 }
+
+export interface MessageButton {
+  title: string;
+  payload: string;
+}

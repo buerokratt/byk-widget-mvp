@@ -5,6 +5,7 @@ import { AUTHOR_ROLES, CHAT_EVENTS, CHAT_STATUS, ERROR_MESSAGE, SESSION_STORAGE_
 import { getFromSessionStorage, setToSessionStorage } from '../utils/session-storage-utils';
 import { Chat } from '../model/chat-model';
 import { clearStateVariablesFromSessionStorage, findMatchingMessageFromMessageList } from '../utils/state-management-utils';
+import { getChatModeBasedOnLastMessage } from '../utils/chat-utils';
 
 export interface EstimatedWaiting {
   isActive: boolean;
@@ -223,10 +224,7 @@ export const chatSlice = createSlice({
       state.messages.push(...receivedMessages);
       setToSessionStorage('newMessagesAmount', state.newMessagesAmount);
 
-      if(receivedMessages && receivedMessages.length > 0){
-        state.chatMode = receivedMessages[receivedMessages.length - 1]?.buttons
-          ? CHAT_MODES.FLOW : CHAT_MODES.FREE;
-      }
+      state.chatMode = getChatModeBasedOnLastMessage(receivedMessages);
     },
     handleStateChangingEventMessages: (state, action: PayloadAction<Message[]>) => {
       action.payload.forEach((msg) => {
@@ -271,10 +269,7 @@ export const chatSlice = createSlice({
       state.lastReadMessageTimestamp = new Date().toISOString();
       state.messages = action.payload;
 
-      if(state.messages && state.messages.length > 0){
-        state.chatMode = state.messages[state.messages.length - 1]?.buttons
-          ? CHAT_MODES.FLOW : CHAT_MODES.FREE;
-      }
+      state.chatMode = getChatModeBasedOnLastMessage(state.messages);
     });
     builder.addCase(getGreeting.fulfilled, (state, action) => {
       if (!action.payload.isActive) return;
