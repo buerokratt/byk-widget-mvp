@@ -1,7 +1,7 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { Message } from '../model/message-model';
 import ChatService from '../services/chat-service';
-import { AUTHOR_ROLES, CHAT_EVENTS, CHAT_STATUS, ERROR_MESSAGE, SESSION_STORAGE_CHAT_ID_KEY } from '../constants';
+import { AUTHOR_ROLES, CHAT_EVENTS, CHAT_STATUS, ERROR_MESSAGE, SESSION_STORAGE_CHAT_ID_KEY, CHAT_MODES } from '../constants';
 import { getFromSessionStorage, setToSessionStorage } from '../utils/session-storage-utils';
 import { Chat } from '../model/chat-model';
 import { clearStateVariablesFromSessionStorage, findMatchingMessageFromMessageList } from '../utils/state-management-utils';
@@ -39,6 +39,7 @@ export interface ChatState {
     phoneNr: string;
     comment: string;
   };
+  chatMode: CHAT_MODES;
 }
 
 const initialState: ChatState = {
@@ -72,6 +73,7 @@ const initialState: ChatState = {
     isFeedbackRatingGiven: false,
     showFeedbackWarning: false,
   },
+  chatMode: CHAT_MODES.FREE,
 };
 
 export const initChat = createAsyncThunk('chat/init', async (message: Message) =>
@@ -220,6 +222,11 @@ export const chatSlice = createSlice({
       state.newMessagesAmount += receivedMessages.length;
       state.messages.push(...receivedMessages);
       setToSessionStorage('newMessagesAmount', state.newMessagesAmount);
+
+      if(receivedMessages && receivedMessages.length > 0){
+        state.chatMode = receivedMessages[receivedMessages.length - 1]?.buttons
+          ? CHAT_MODES.FLOW : CHAT_MODES.FREE;
+      }
     },
     handleStateChangingEventMessages: (state, action: PayloadAction<Message[]>) => {
       action.payload.forEach((msg) => {
@@ -263,6 +270,11 @@ export const chatSlice = createSlice({
       if (!action.payload) return;
       state.lastReadMessageTimestamp = new Date().toISOString();
       state.messages = action.payload;
+
+      if(state.messages && state.messages.length > 0){
+        state.chatMode = state.messages[state.messages.length - 1]?.buttons
+          ? CHAT_MODES.FLOW : CHAT_MODES.FREE;
+      }
     });
     builder.addCase(getGreeting.fulfilled, (state, action) => {
       if (!action.payload.isActive) return;
