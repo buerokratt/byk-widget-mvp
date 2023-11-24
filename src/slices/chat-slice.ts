@@ -124,11 +124,11 @@ export const endChat = createAsyncThunk('chat/endChat', async (_args, thunkApi) 
   return chatStatus === CHAT_STATUS.ENDED
     ? null
     : ChatService.endChat({
-        chatId,
-        event: CHAT_EVENTS.CLIENT_LEFT,
-        authorTimestamp: new Date().toISOString(),
-        authorRole: AUTHOR_ROLES.END_USER,
-      });
+      chatId,
+      event: CHAT_EVENTS.CLIENT_LEFT,
+      authorTimestamp: new Date().toISOString(),
+      authorRole: AUTHOR_ROLES.END_USER,
+    });
 });
 
 export const sendMessageWithRating = createAsyncThunk('chat/sendMessageWithRating', async (message: Message) =>
