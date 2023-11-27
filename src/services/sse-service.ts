@@ -3,9 +3,10 @@ import { RuuterResponse } from '../model/ruuter-response-model';
 const ruuterUrl = window._env_.RUUTER_API_URL;
 
 const sse = <T>(url: string, onMessage: (data: T) => void): EventSource => {
-  const eventSource = new EventSource(`${ruuterUrl}/sse${url}`, { withCredentials: true });
+  const eventSource = new EventSource(url);
 
   eventSource.onmessage = (event: MessageEvent) => {
+    console.log('SSE message, url:', url, ' message:', event.data);
     const response = JSON.parse(event.data);
 
     if (response.statusCodeValue === 200) {
@@ -21,10 +22,6 @@ const sse = <T>(url: string, onMessage: (data: T) => void): EventSource => {
 
   eventSource.onerror = () => {
     console.error('SSE error, url:', url);
-  };
-
-  eventSource.onmessage = (event: MessageEvent) => {
-    console.log('SSE message, url:', url, ' message:', event.data);
   };
 
   return eventSource;
