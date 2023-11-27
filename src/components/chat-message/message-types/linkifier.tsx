@@ -3,8 +3,9 @@ import Linkify from 'linkify-react';
 
 const Linkifier = (props: { message: string | undefined }): JSX.Element => {
   const { message = '' } = props;
-
-  const regex = /https:\/\/([a-zõäöüA-ZÕÄÖÜ0-9.]+[\\/]?)+$/;
+  
+  const regex = /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)/;
+  
   return (
     <div>
       <Linkify
