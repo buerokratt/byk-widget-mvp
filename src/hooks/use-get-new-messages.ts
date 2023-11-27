@@ -11,14 +11,22 @@ const useGetNewMessages = (): void => {
   const { lastReadMessageTimestamp, isChatEnded, chatId } = useChatSelector();
   const dispatch = useAppDispatch();
   const [sseUrl, setSseUrl] = useState('');
+  const [lastReadMessageTimestampValue, setLastReadMessageTimestampValue] = useState('');
 
   useEffect(() => {
-    if(isChatEnded){
-      setSseUrl('');
-    } else if (chatId && lastReadMessageTimestamp) {
-      setSseUrl(`${RUUTER_ENDPOINTS.GET_NEW_MESSAGES}?chatId=${chatId}&timeRangeBegin=${lastReadMessageTimestamp.split('+')[0]}`);
+    if(lastReadMessageTimestamp && !lastReadMessageTimestampValue){
+      setLastReadMessageTimestampValue(lastReadMessageTimestamp);
     }
-  }, [chatId, lastReadMessageTimestamp, isChatEnded]);
+  }, [lastReadMessageTimestamp]);
+
+  useEffect(() => {
+    if(isChatEnded) {
+      setSseUrl('');
+    }
+    else if (chatId && lastReadMessageTimestampValue) {
+      setSseUrl(`${RUUTER_ENDPOINTS.GET_NEW_MESSAGES}?chatId=${chatId}&timeRangeBegin=${lastReadMessageTimestampValue.split('+')[0]}`);
+    }
+  }, [isChatEnded, chatId, lastReadMessageTimestampValue]);
 
   useEffect(() => {
     let events: EventSource | undefined;
