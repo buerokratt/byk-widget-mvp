@@ -224,7 +224,7 @@ export const chatSlice = createSlice({
       state.messages.push(...receivedMessages);
       setToSessionStorage('newMessagesAmount', state.newMessagesAmount);
 
-      state.chatMode = getChatModeBasedOnLastMessage(receivedMessages);
+      state.chatMode = getChatModeBasedOnLastMessage(state.messages);
     },
     handleStateChangingEventMessages: (state, action: PayloadAction<Message[]>) => {
       action.payload.forEach((msg) => {
@@ -268,7 +268,6 @@ export const chatSlice = createSlice({
       if (!action.payload) return;
       state.lastReadMessageTimestamp = new Date().toISOString();
       state.messages = action.payload;
-
       state.chatMode = getChatModeBasedOnLastMessage(state.messages);
     });
     builder.addCase(getGreeting.fulfilled, (state, action) => {
