@@ -6,7 +6,6 @@ const sse = <T>(url: string, onMessage: (data: T) => void): EventSource => {
   const eventSource = new EventSource(`${ruuterUrl}/sse${url}`, { withCredentials: true });
 
   eventSource.onmessage = (event: MessageEvent) => {
-    console.log('SSE message, url:', url, ' message:', event.data);
     const response = JSON.parse(event.data);
 
     if (response.statusCodeValue === 200) {
@@ -17,7 +16,7 @@ const sse = <T>(url: string, onMessage: (data: T) => void): EventSource => {
   };
   
   eventSource.onopen = () => {
-    console.log('SSE connection Opened, url:', url);
+    console.log('SSE connection opened, url:', url);
   };
 
   eventSource.onerror = () => {
