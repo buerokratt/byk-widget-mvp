@@ -32,7 +32,6 @@ export enum CHAT_EVENTS {
   ANSWERED = 'answered',
   TERMINATED = 'terminated',
   CLIENT_LEFT = 'client-left',
-  CLIENT_LEFT_FOR_UNKNOWN_REASONS = 'client_left_for_unknown_reasons',
   GREETING = 'greeting',
   RATING = 'rating',
   REQUESTED_AUTHENTICATION = 'requested-authentication',

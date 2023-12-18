@@ -1,6 +1,5 @@
 import { useEffect } from "react";
 import { useAppDispatch } from "../store";
-import { CHAT_EVENTS } from "../constants";
 import { endChat } from "../slices/chat-slice";
 import useChatSelector from "./use-chat-selector";
 
@@ -10,14 +9,7 @@ const useReloadChatEndEffect = () => {
 
   useEffect(() => {
     const handleBeforeUnload = () => {
-      if (chatId) {
-        dispatch(
-          endChat({
-            event: CHAT_EVENTS.CLIENT_LEFT_FOR_UNKNOWN_REASONS,
-            isUpperCase: true,
-          })
-        );
-      }
+      if (chatId) dispatch(endChat());
     };
 
     const handleKeyDown = (event: KeyboardEvent) => {
