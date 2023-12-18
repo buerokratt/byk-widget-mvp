@@ -12,6 +12,7 @@ import useNewMessageNotification from './hooks/use-new-message-notification';
 import useAuthentication from './hooks/use-authentication';
 import useGetNewMessages from './hooks/use-get-new-messages';
 import useGetChat from './hooks/use-get-chat';
+import useReloadChatEndEffect from './hooks/use-reload-chat-end-effect';
 
 declare global {
   interface Window {
@@ -41,6 +42,7 @@ const App: FC = () => {
   useGetChat();
   useGetNewMessages();
   useNewMessageNotification();
+  useReloadChatEndEffect();
 
   useEffect(() => {
     const sessionStorageChatId = getFromSessionStorage(SESSION_STORAGE_CHAT_ID_KEY);
