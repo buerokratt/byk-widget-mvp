@@ -211,14 +211,19 @@ export const chatSlice = createSlice({
     addMessagesToDisplay: (state, action: PayloadAction<Message[]>) => {
       let receivedMessages = action.payload || [];
       if (!receivedMessages.length) return;
-
-      state.messages = state.messages.map((existingMessage) => {
+      
+      let skip = false;
+      const newMessagesList = state.messages.map((existingMessage) => {
         const matchingMessage = findMatchingMessageFromMessageList(existingMessage, receivedMessages);
+        if (!!matchingMessage) skip = true;
         if (!matchingMessage) return existingMessage;
         receivedMessages = receivedMessages.filter((rMsg) => rMsg.id !== matchingMessage.id);
         return { ...existingMessage, ...matchingMessage };
       });
 
+      if(skip) return;
+
+      state.messages = newMessagesList;
       state.lastReadMessageTimestamp = new Date().toISOString();
       state.newMessagesAmount += receivedMessages.length;
       state.messages.push(...receivedMessages);
