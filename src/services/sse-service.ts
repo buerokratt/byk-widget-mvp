@@ -16,11 +16,11 @@ const sse = <T>(url: string, onMessage: (data: T) => void): EventSource => {
   };
   
   eventSource.onopen = () => {
-    console.log("SSE connection Opened");
+    console.log('SSE connection opened, url:', url);
   };
 
   eventSource.onerror = () => {
-    console.error('SSE error');
+    console.error('SSE error, url:', url);
   };
 
   return eventSource;
