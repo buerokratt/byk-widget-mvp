@@ -212,21 +212,20 @@ export const chatSlice = createSlice({
       let receivedMessages = action.payload || [];
       if (!receivedMessages.length) return;
       
-      let skip = false;
       const newMessagesList = state.messages.map((existingMessage) => {
         const matchingMessage = findMatchingMessageFromMessageList(existingMessage, receivedMessages);
-        if (!!matchingMessage) skip = true;
         if (!matchingMessage) return existingMessage;
         receivedMessages = receivedMessages.filter((rMsg) => rMsg.id !== matchingMessage.id);
         return { ...existingMessage, ...matchingMessage };
       });
 
-      if(skip) return;
-
+      newMessagesList.push(...receivedMessages);
+      if(newMessagesList.length === state.messages.length){
+        return;
+      }
       state.messages = newMessagesList;
       state.lastReadMessageTimestamp = new Date().toISOString();
       state.newMessagesAmount += receivedMessages.length;
-      state.messages.push(...receivedMessages);
       setToSessionStorage('newMessagesAmount', state.newMessagesAmount);
 
       state.chatMode = getChatModeBasedOnLastMessage(state.messages);
