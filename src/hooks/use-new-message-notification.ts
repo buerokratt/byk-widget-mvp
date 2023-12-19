@@ -17,7 +17,7 @@ const useNewMessageNotification = (): void => {
     if (isChatOpen) {
       dispatch(resetNewMessagesAmount());
     }
-  }, [dingEffect, dispatch, isChatOpen, newMessagesAmount]);
+  }, [dingEffect, isChatOpen, newMessagesAmount]);
 };
 
 export default useNewMessageNotification;

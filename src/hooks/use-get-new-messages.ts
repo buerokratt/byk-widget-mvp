@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useAppDispatch } from '../store';
 import sse from '../services/sse-service';
 import useChatSelector from './use-chat-selector';
@@ -10,26 +10,42 @@ import { isStateChangingEventMessage } from '../utils/state-management-utils';
 const useGetNewMessages = (): void => {
   const { lastReadMessageTimestamp, isChatEnded, chatId } = useChatSelector();
   const dispatch = useAppDispatch();
+  const [sseUrl, setSseUrl] = useState('');
+  const [lastReadMessageTimestampValue, setLastReadMessageTimestampValue] = useState('');
 
   useEffect(() => {
-    if (!chatId || isChatEnded || !lastReadMessageTimestamp) return undefined;
-    
-    const onMessage = (messages: Message[]) => {
-        const newDisplayableMessages = messages.filter((msg) => msg.event !== CHAT_EVENTS.GREETING);
-        const stateChangingEventMessages = messages.filter((msg) => isStateChangingEventMessage(msg));
-        dispatch(addMessagesToDisplay(newDisplayableMessages));
-        dispatch(handleStateChangingEventMessages(stateChangingEventMessages));
-    };
+    if(lastReadMessageTimestamp && !lastReadMessageTimestampValue){
+      setLastReadMessageTimestampValue(lastReadMessageTimestamp);
+    }
+  }, [lastReadMessageTimestamp]);
 
-    const events = sse(
-      `${RUUTER_ENDPOINTS.GET_NEW_MESSAGES}?chatId=${chatId}&timeRangeBegin=${lastReadMessageTimestamp.split('+')[0]}`,
-      onMessage
-    );
+  useEffect(() => {
+    if(isChatEnded) {
+      setSseUrl('');
+    }
+    else if (chatId && lastReadMessageTimestampValue) {
+      setSseUrl(`${RUUTER_ENDPOINTS.GET_NEW_MESSAGES}?chatId=${chatId}&timeRangeBegin=${lastReadMessageTimestampValue.split('+')[0]}`);
+    }
+  }, [isChatEnded, chatId, lastReadMessageTimestampValue]);
 
+  useEffect(() => {
+    let events: EventSource | undefined;
+
+    if (sseUrl) {  
+      const onMessage = (messages: Message[]) => {
+          const newDisplayableMessages = messages.filter((msg) => msg.event !== CHAT_EVENTS.GREETING);
+          const stateChangingEventMessages = messages.filter((msg) => isStateChangingEventMessage(msg));
+          dispatch(addMessagesToDisplay(newDisplayableMessages));
+          dispatch(handleStateChangingEventMessages(stateChangingEventMessages));
+      };
+
+      events = sse(sseUrl, onMessage);
+    }
+  
     return () => {
-      events.close();
+      events?.close();
     };
-  }, [dispatch, lastReadMessageTimestamp, chatId, isChatEnded]);
+  }, [sseUrl]);
 };
 
 export default useGetNewMessages;
