@@ -5,7 +5,7 @@ interface LinkifierProps {
   message: string | undefined;
 }
 
-const regex = /https?:\/\/[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zõäöüA-ZÕÄÖÜ0-9()@:%_\+.~#?&//=]*)/;
+const regex = /https?:\/\/[-a-zA-Z0-9@:%._\+~#=]{1,256}\b([-a-zõäöüA-ZÕÄÖÜ0-9()@:%_\+.~#?&//=]*)/;
 
 const Linkifier: React.FC<LinkifierProps> = ({ message }) => (
   <div>

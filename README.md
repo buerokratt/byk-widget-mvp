@@ -65,6 +65,39 @@ Snippet can be embedded to any site using the following html:
   BEGIN and END times.
 
 
+## Rasa Buttons Support
+
+In order for Rasa buttons to be supported this [Pull Request](https://github.com/buerokratt/Buerokratt-Chatbot/pull/359) must be merged and deployed. Other option is to merge and deploy it manually using these steps:
+
+- Add `m.buttons,` to the `SELECT` statement of `DSL.Resql/get-chat-messages-updated-after-time.sql` as in [here](https://github.com/baha-a/Buerokratt-Chatbot/blob/44633eb8c36626db4d8358bbecefbf37117c84d5/DSL.Resql/get-chat-messages-updated-after-time.sql#L4)
+
+- Add `m.buttons,` to the `SELECT` statement of `DSL.Resql/get-chat-messages.sql` as in [here](https://github.com/baha-a/Buerokratt-Chatbot/blob/44633eb8c36626db4d8358bbecefbf37117c84d5/DSL.Resql/get-chat-messages.sql#L4)
+
+- Add `"buttons": "{{buttons}}",` in line number 5 of `DSL.DMapper/format_chat_log.hbs` as in [here](https://github.com/baha-a/Buerokratt-Chatbot/blob/44633eb8c36626db4d8358bbecefbf37117c84d5/DSL.DMapper/format_chat_log.hbs#L5C14-L5C39)
+
+- Add the following line
+  ```
+  "buttons": "[{{#each buttons}}{\"title\": \"{{{escape_special_chars title}}}\",\"payload\": \"{{{escape_special_chars payload}}}\"}{{#unless @last}},{{/unless}}{{/each}}]",
+  ```
+  in line number 6 of `DSL.DMapper/bot_responses_to_messages.hbs` as in 
+  [here](https://github.com/baha-a/Buerokratt-Chatbot/blob/44633eb8c36626db4d8358bbecefbf37117c84d5/DSL.DMapper/bot_responses_to_messages.hbs#L6)
+
+- Add `buttons,` into the `SELECT` statement of `DSL.Resql/get-message-by-id.sql` as in [here](https://github.com/baha-a/Buerokratt-Chatbot/blob/44633eb8c36626db4d8358bbecefbf37117c84d5/DSL.Resql/get-message-by-id.sql#L5)
+
+- Add `buttons,` into the `SELECT` statement of `DSL.Resql/get-messages-by-ids.sql` as in [here](https://github.com/baha-a/Buerokratt-Chatbot/blob/44633eb8c36626db4d8358bbecefbf37117c84d5/DSL.Resql/get-messages-by-ids.sql#L5)
+
+- Inside file `DSL.Resql/insert-bot-message.sql` do
+  - Add `buttons,` into the `INSERT INTO` as in [here](https://github.com/baha-a/Buerokratt-Chatbot/blob/44633eb8c36626db4d8358bbecefbf37117c84d5/DSL.Resql/insert-bot-message.sql#L1C53-L1C62)
+  - Add `(SELECT value) ->> 'buttons' AS buttons,` into the `SELECT` statement as in [here](https://github.com/baha-a/Buerokratt-Chatbot/blob/44633eb8c36626db4d8358bbecefbf37117c84d5/DSL.Resql/insert-bot-message.sql#L6C8-L6C56)
+
+
+- Copy [database migration file](https://github.com/baha-a/Buerokratt-Chatbot/blob/44633eb8c36626db4d8358bbecefbf37117c84d5/DSL.Liquibase/changelog/20231116124800_add_buttons_to_messages.xml) into `DSL.Liquibase/changelog/20231116124800_add_buttons_to_messages.xml`
+ 
+- Run database migration by executing this command
+  ```
+  docker run --rm --network bykstack -v `pwd`/DSL.Liquibase/changelog:/liquibase/changelog -v `pwd`/DSL.Liquibase/master.yml:/liquibase/master.yml -v `pwd`/DSL.Liquibase/data:/liquibase/data liquibase/liquibase --defaultsFile=/liquibase/changelog/liquibase.properties --changelog-file=master.yml --url=jdbc:postgresql://users_db:5432/byk?user=byk --password=01234 update
+  ```
+
 ## Licence
 
 See licence [here](LICENCE.md).
