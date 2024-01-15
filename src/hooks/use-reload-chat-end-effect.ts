@@ -9,7 +9,8 @@ const useReloadChatEndEffect = () => {
 
   useEffect(() => {
     const handleBeforeUnload = () => {
-      if (chatId) dispatch(endChat());
+      if (!chatId) return;
+      dispatch(endChat());
     };
 
     const handleKeyDown = (event: KeyboardEvent) => {

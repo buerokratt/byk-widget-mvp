@@ -1,4 +1,4 @@
-import http from './http-service';
+import http, { sendBackgroundRequest } from './http-service';
 import { Message } from '../model/message-model';
 import { Chat } from '../model/chat-model';
 import { RUUTER_ENDPOINTS } from '../constants';
@@ -30,8 +30,8 @@ class ChatService {
     return http.post(RUUTER_ENDPOINTS.POST_NEW_RATING, message);
   }
 
-  endChat(message: Message): Promise<void> {
-    return http.post(RUUTER_ENDPOINTS.END_CHAT, message);
+  endChat(message: Message): void {
+    sendBackgroundRequest(RUUTER_ENDPOINTS.END_CHAT, message);
   }
 
   getGreeting(): Promise<{ eng: string; est: string; isActive: boolean }> {

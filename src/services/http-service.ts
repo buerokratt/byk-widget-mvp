@@ -1,5 +1,4 @@
 import axios from 'axios';
-import { Agent } from 'http';
 import { RuuterResponse } from '../model/ruuter-response-model';
 
 const http = axios.create({
@@ -8,9 +7,6 @@ const http = axios.create({
     'Content-Type': 'application/json',
   },
   withCredentials: true,
-  httpAgent: new Agent({ 
-    keepAlive: true 
-  }),
 });
 
 http.interceptors.response.use((response) => {
@@ -29,4 +25,10 @@ http.interceptors.response.use((response) => {
   return response;
 });
 
+const sendBackgroundRequest = (url: string, data: any) => {
+  const fullurl = `${window._env_.RUUTER_API_URL}${url}`;
+  navigator.sendBeacon(fullurl, JSON.stringify(data));
+}
+
 export default http;
+export { sendBackgroundRequest };
