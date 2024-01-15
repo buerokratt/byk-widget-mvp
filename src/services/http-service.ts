@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { Agent } from 'http';
 import { RuuterResponse } from '../model/ruuter-response-model';
 
 const http = axios.create({
@@ -7,6 +8,9 @@ const http = axios.create({
     'Content-Type': 'application/json',
   },
   withCredentials: true,
+  httpAgent: new Agent({ 
+    keepAlive: true 
+  }),
 });
 
 http.interceptors.response.use((response) => {

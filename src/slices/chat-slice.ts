@@ -119,6 +119,7 @@ export const endChat = createAsyncThunk('chat/endChat', async (_args, thunkApi) 
   const {
     chat: { chatStatus, chatId },
   } = thunkApi.getState() as { chat: ChatState };
+  
   thunkApi.dispatch(resetState());
 
   return chatStatus === CHAT_STATUS.ENDED
