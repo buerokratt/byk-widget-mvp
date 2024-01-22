@@ -56,7 +56,6 @@ export enum AUTHOR_ROLES {
 export enum RUUTER_ENDPOINTS {
   INIT_CHAT = '/init-chat',
   GET_CHAT_BY_ID = '/get-chat-by-id',
-  GET_NEW_MESSAGES = '/get-new-messages',
   POST_MESSAGE = '/post-message',
   POST_NEW_RATING = '/post-message-with-rating',
   GET_MESSAGES_BY_CHAT_ID = '/get-messages-by-chat-id',
