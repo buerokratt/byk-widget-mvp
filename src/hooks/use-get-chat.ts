@@ -12,24 +12,25 @@ const useGetChat = (): void => {
   const [sseUrl, setSseUrl] = useState('');
 
   useEffect(() => {
-    if (isChatEnded || !chatId){
+    if (isChatEnded || !chatId)
       setSseUrl('');
-    } else if(chatId) {
+    else if(chatId)
       setSseUrl(`${RUUTER_ENDPOINTS.GET_CHAT_BY_ID}?id=${chatId}`);
-    }
   },[chatId, isChatEnded]);
 
   useEffect(() => {
     let events: EventSource | undefined;
-    if (sseUrl){
+    
+    if (sseUrl) {
       events = sse(
         sseUrl,
         (data: Chat) => dispatch(setChat(data))
       );
     }
+
     return () => {
       events?.close();
-    };
+    }
   }, [sseUrl]);
 };
 

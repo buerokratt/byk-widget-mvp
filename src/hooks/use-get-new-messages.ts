@@ -20,11 +20,11 @@ const useGetNewMessages = (): void => {
   }, [lastReadMessageTimestamp]);
 
   useEffect(() => {
-    if(isChatEnded) {
+    if(isChatEnded)
       setSseUrl('');
-    }
     else if (chatId && lastReadMessageTimestampValue) {
-      setSseUrl(`${RUUTER_ENDPOINTS.GET_NEW_MESSAGES}?chatId=${chatId}&timeRangeBegin=${lastReadMessageTimestampValue.split('+')[0]}`);
+      const startTime = lastReadMessageTimestampValue.split('+')[0];
+      setSseUrl(`${RUUTER_ENDPOINTS.GET_NEW_MESSAGES}?chatId=${chatId}&timeRangeBegin=${startTime}`);
     }
   }, [isChatEnded, chatId, lastReadMessageTimestampValue]);
 
@@ -44,7 +44,7 @@ const useGetNewMessages = (): void => {
   
     return () => {
       events?.close();
-    };
+    }
   }, [sseUrl]);
 };
 
