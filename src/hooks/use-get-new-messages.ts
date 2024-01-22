@@ -33,10 +33,10 @@ const useGetNewMessages = (): void => {
 
     if (sseUrl) {  
       const onMessage = (messages: Message[]) => {
-          const newDisplayableMessages = messages.filter((msg) => msg.event !== CHAT_EVENTS.GREETING);
-          const stateChangingEventMessages = messages.filter((msg) => isStateChangingEventMessage(msg));
-          dispatch(addMessagesToDisplay(newDisplayableMessages));
-          dispatch(handleStateChangingEventMessages(stateChangingEventMessages));
+        const newDisplayableMessages = messages.filter((msg) => msg.event !== CHAT_EVENTS.GREETING);
+        const stateChangingEventMessages = messages.filter((msg) => isStateChangingEventMessage(msg));
+        dispatch(addMessagesToDisplay(newDisplayableMessages));
+        dispatch(handleStateChangingEventMessages(stateChangingEventMessages));
       };
 
       events = sse(sseUrl, onMessage);
