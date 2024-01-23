@@ -1,7 +1,6 @@
 import { useEffect } from 'react';
 import { useAppDispatch } from '../store';
 import { setChat } from '../slices/chat-slice';
-import { Chat } from '../model/chat-model';
 import chatService from '../services/chat-service';
 import useChatSelector from './use-chat-selector';
 
@@ -14,9 +13,10 @@ const useGetChat = (): void => {
       return;
     }
 
-    chatService.getChatById(chatId).then((chat) => {
-      dispatch(setChat(chat));
+    chatService.getChat().then(chat => {
+      dispatch(setChat(chat))
     });
+
   }, [isChatEnded, chatId]);
 };
 
