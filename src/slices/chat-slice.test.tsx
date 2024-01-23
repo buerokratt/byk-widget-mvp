@@ -93,7 +93,6 @@ describe('Chat slice', () => {
 
       expect(reducer(previousState, addMessagesToDisplay(messages))).toEqual({
         ...initialChatState,
-        lastReadMessageTimestamp: new Date().toISOString(),
         newMessagesAmount: 2,
         messages,
       });
@@ -136,7 +135,7 @@ describe('Chat slice', () => {
     it('should set loading true when initChat is pending', () => {
       const action = { type: initChat.pending.type };
       const state = reducer({ ...initialChatState, loading: false }, action);
-      expect(state).toEqual({ ...initialChatState, loading: true, lastReadMessageTimestamp: state.lastReadMessageTimestamp });
+      expect(state).toEqual({ ...initialChatState, loading: true });
     });
 
     it('should set chat id and chat status open when initChat is fulfilled', () => {
@@ -156,7 +155,6 @@ describe('Chat slice', () => {
       const state = reducer(initialChatState, action);
       expect(state).toEqual({
         ...initialChatState,
-        lastReadMessageTimestamp: state.lastReadMessageTimestamp,
         messages: { content: 'hey', authorTimestamp: new Date().toString(), chatId: '123' },
       });
     });
