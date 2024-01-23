@@ -1,48 +1,34 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { useAppDispatch } from '../store';
 import sse from '../services/sse-service';
 import useChatSelector from './use-chat-selector';
 import { Message } from '../model/message-model';
-import { RUUTER_ENDPOINTS } from '../constants';
 import { addMessagesToDisplay, handleStateChangingEventMessages } from '../slices/chat-slice';
 import { isStateChangingEventMessage, notGreetingMessages } from '../utils/state-management-utils';
 
 const useGetNewMessages = (): void => {
-  const { lastReadMessageTimestamp, isChatEnded, chatId } = useChatSelector();
+  const { isChatEnded, chatId } = useChatSelector();
   const dispatch = useAppDispatch();
   const [sseUrl, setSseUrl] = useState('');
-  const [lastReadMessageTimestampValue, setLastReadMessageTimestampValue] = useState('');
 
-  useEffect(() => {
-    if(lastReadMessageTimestamp && !lastReadMessageTimestampValue){
-      setLastReadMessageTimestampValue(lastReadMessageTimestamp);
-    }
-  }, [lastReadMessageTimestamp]);
+  const onMessage = useCallback((messages: Message[]) => {
+    const newDisplayableMessages = messages.filter(notGreetingMessages);
+    const stateChangingEventMessages = messages.filter(isStateChangingEventMessage);
+    dispatch(addMessagesToDisplay(newDisplayableMessages));
+    dispatch(handleStateChangingEventMessages(stateChangingEventMessages));
+  }, [dispatch]);
 
   useEffect(() => {
     if(isChatEnded)
-      setSseUrl('');
-    else if (chatId && lastReadMessageTimestampValue) {
-      const startTime = lastReadMessageTimestampValue.split('+')[0];
-      setSseUrl(`${RUUTER_ENDPOINTS.GET_NEW_MESSAGES}?chatId=${chatId}&timeRangeBegin=${startTime}`);
-    }
-  }, [isChatEnded, chatId, lastReadMessageTimestampValue]);
+      setSseUrl('')
+    else if (chatId)
+      setSseUrl(`/${chatId}`);
+  }, [isChatEnded, chatId]);
 
   useEffect(() => {
-    let events: EventSource | undefined;
-
-    if (sseUrl) {  
-      const onMessage = (messages: Message[]) => {
-        const newDisplayableMessages = messages.filter(notGreetingMessages);
-        const stateChangingEventMessages = messages.filter(isStateChangingEventMessage);
-        dispatch(addMessagesToDisplay(newDisplayableMessages));
-        dispatch(handleStateChangingEventMessages(stateChangingEventMessages));
-      };
-
-      events = sse(sseUrl, onMessage);
-    }
+    const events = sseUrl ? sse(sseUrl, onMessage) : null;
   
-    return () => {
+    return () => { 
       events?.close();
     }
   }, [sseUrl]);
