@@ -41,6 +41,7 @@ Snippet can be embedded to any site using the following html:
   window._env_ = {
     RUUTER_API_URL: 'LOCATION_OF_RUUTER',
     TIM_AUTHENTICATION_URL: 'TIM url with callback parameter',
+    NOTIFICATION_NODE_URL: 'LOCATION_OF_NOTIFICATION_SERVER',
     OFFICE_HOURS: {
       TIMEZONE: 'Europe/Tallinn',
       BEGIN: 8,

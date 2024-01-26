@@ -1,36 +1,23 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { useAppDispatch } from '../store';
-import sse from '../services/sse-service';
-import useChatSelector from './use-chat-selector';
-import { RUUTER_ENDPOINTS } from '../constants';
 import { setChat } from '../slices/chat-slice';
-import { Chat } from '../model/chat-model';
+import chatService from '../services/chat-service';
+import useChatSelector from './use-chat-selector';
 
 const useGetChat = (): void => {
-  const { chatId, isChatEnded, } = useChatSelector();
+  const { isChatEnded, chatId } = useChatSelector();
   const dispatch = useAppDispatch();
-  const [sseUrl, setSseUrl] = useState('');
 
   useEffect(() => {
-    if (isChatEnded || !chatId){
-      setSseUrl('');
-    } else if(chatId) {
-      setSseUrl(`${RUUTER_ENDPOINTS.GET_CHAT_BY_ID}?id=${chatId}`);
+    if(isChatEnded || !chatId) {
+      return;
     }
-  },[chatId, isChatEnded]);
 
-  useEffect(() => {
-    let events: EventSource | undefined;
-    if (sseUrl){
-      events = sse(
-        sseUrl,
-        (data: Chat) => dispatch(setChat(data))
-      );
-    }
-    return () => {
-      events?.close();
-    };
-  }, [sseUrl]);
+    chatService.getChat().then(chat => {
+      dispatch(setChat(chat))
+    });
+
+  }, [isChatEnded, chatId]);
 };
 
 export default useGetChat;
