@@ -1,15 +1,21 @@
 import { LOCAL_STORAGE_TARA_LOGIN_REDIRECT } from "../constants";
+import widgetService from "../services/widget-service";
 
 export function redirectToTim() {
   saveCurrentBrowserPath();
   window.location.assign(window._env_.TIM_AUTHENTICATION_URL);
 }
 
-export function redirectIfComeBackFromTim() {
+export function redirectIfComeBackFromTim(callback: any) {
   const redirectPath = getRedirectPath();
-  if (!!redirectPath) {
-    removeRedirectPath();
-    window.location.href = window.location.origin + redirectPath;
+  const hasJWTCookie = document.cookie.indexOf('JWTTOKEN') != -1;
+  if (redirectPath && hasJWTCookie) {
+    setTimeout(async () => {
+      removeRedirectPath();
+      await widgetService.authenticateUser();
+      await callback?.();
+      window.location.assign(redirectPath);
+    }, 500);
   }
 }
 
