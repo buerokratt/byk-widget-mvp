@@ -59,6 +59,7 @@ export enum RUUTER_ENDPOINTS {
   POST_MESSAGE = '/post-message',
   POST_NEW_RATING = '/post-message-with-rating',
   GET_MESSAGES_BY_CHAT_ID = '/get-messages-by-chat-id',
+  GET_CHAT_BY_ID = '/chat',
   END_CHAT = '/end-chat',
   GET_GREETING = '/get-greeting-message',
   SEND_NPM_RATING = '/post-chat-feedback-rating',
