@@ -3,9 +3,9 @@ name: Build and publish Widget
 on:
   push:
     branches:
-      - dev
+      - main
     paths:
-      - '.env.test'
+      - '.env'
 
 jobs:
   PackageDeploy:
