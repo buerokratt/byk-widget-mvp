@@ -1,6 +1,6 @@
 /* eslint-disable */
 export const SESSION_STORAGE_CHAT_ID_KEY = 'byk-va-cid';
-export const SESSION_STORAGE_TARA_LOGIN_REDIRECT = 'byk-va-tara-login-redirect';
+export const LOCAL_STORAGE_TARA_LOGIN_REDIRECT = 'byk-va-tara-login-redirect';
 export const OFFICE_HOURS_INTERVAL_TIMEOUT = 60000;
 // BYK-648 enable to show customer service agent name in chat window
 export const CLIENT_NAME_ENABLED = false;
@@ -59,6 +59,7 @@ export enum RUUTER_ENDPOINTS {
   POST_MESSAGE = '/post-message',
   POST_NEW_RATING = '/post-message-with-rating',
   GET_MESSAGES_BY_CHAT_ID = '/get-messages-by-chat-id',
+  GET_CHAT_BY_ID = '/chat',
   END_CHAT = '/end-chat',
   GET_GREETING = '/get-greeting-message',
   SEND_NPM_RATING = '/post-chat-feedback-rating',
@@ -67,6 +68,7 @@ export enum RUUTER_ENDPOINTS {
   SEND_MESSAGE_WITH_NEW_EVENT = '/post-message-with-new-event',
   REMOVE_CHAT_FORWARDING_VALUE = '/remove-chat-forwarding-value',
   GENERATE_FORWARDING_REQUEST = '/origin-forward',
+  AUTHENTICATE_USER = '/end-user-id-name',
 }
 
 export enum StyledButtonType {

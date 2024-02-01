@@ -3,11 +3,12 @@ import styled from 'styled-components';
 import { motion } from 'framer-motion';
 import { useTranslation } from 'react-i18next';
 import StyledButton from '../styled-components/styled-button';
-import { SESSION_STORAGE_TARA_LOGIN_REDIRECT, StyledButtonType, TERMS_AND_CONDITIONS_LINK } from '../../constants';
+import { StyledButtonType, TERMS_AND_CONDITIONS_LINK } from '../../constants';
 import EU_SF_logo_src from '../../static/icons/sf_logo_horizontal.jpg';
 import NEXT_GEN_FLAGS from '../../static/icons/NextGen_Rahastanud_EL_NextGeneration.jpg';
 import useChatSelector from '../../hooks/use-chat-selector';
 import useAuthenticationSelector from '../../hooks/use-authentication-selector';
+import { redirectToTim } from '../../utils/auth-utils';
 
 const WidgetDetails = (): JSX.Element => {
   const { t } = useTranslation();
@@ -21,10 +22,7 @@ const WidgetDetails = (): JSX.Element => {
           {chatId && !isAuthenticated && (
             <AuthenticateWithTaraStyles
               className="authenticateWithTara"
-              onClick={() => {
-                sessionStorage.setItem(SESSION_STORAGE_TARA_LOGIN_REDIRECT, window.location.pathname);
-                window.location.href = window._env_.TIM_AUTHENTICATION_URL;
-              }}
+              onClick={redirectToTim}
               styleType={StyledButtonType.GRAY}
             >
               {t('authenticate.with-tara')}

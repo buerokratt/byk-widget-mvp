@@ -14,6 +14,10 @@ class ChatService {
     return http.post(RUUTER_ENDPOINTS.INIT_CHAT, { message, endUserTechnicalData });
   }
 
+  getChatById(): Promise<Chat> {
+    return http.get(RUUTER_ENDPOINTS.GET_CHAT_BY_ID);
+  }
+
   getChat(): Promise<Chat> {
     return http.post(RUUTER_ENDPOINTS.GET_CHAT);
   }
