@@ -25,4 +25,10 @@ http.interceptors.response.use((response) => {
   return response;
 });
 
+const sendBackgroundRequest = (url: string, data: any) => {
+  const fullurl = `${window._env_.RUUTER_API_URL}${url}`;
+  navigator.sendBeacon(fullurl, JSON.stringify(data));
+}
+
 export default http;
+export { sendBackgroundRequest };
