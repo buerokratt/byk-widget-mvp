@@ -55,11 +55,11 @@ export enum AUTHOR_ROLES {
 
 export enum RUUTER_ENDPOINTS {
   INIT_CHAT = '/init-chat',
-  GET_CHAT = '/chat',
+  GET_CHAT = '/get-chat-by-id',
   POST_MESSAGE = '/post-message',
   POST_NEW_RATING = '/post-message-with-rating',
   GET_MESSAGES_BY_CHAT_ID = '/get-messages-by-chat-id',
-  GET_CHAT_BY_ID = '/chat',
+  GET_CHAT_BY_ID = '/get-chat-by-id',
   END_CHAT = '/end-chat',
   GET_GREETING = '/get-greeting-message',
   SEND_NPM_RATING = '/post-chat-feedback-rating',
