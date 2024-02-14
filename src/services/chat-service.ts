@@ -31,7 +31,7 @@ class ChatService {
   }
 
   getNewMessages(chatId: string, timeRangeBegin: string): Promise<Message[]> {
-    return http.get(RUUTER_ENDPOINTS.GET_NEW_MESSAGES, {params: {chatId: chatId, timeRangeBegin: timeRangeBegin}});
+    return http.post(RUUTER_ENDPOINTS.GET_NEW_MESSAGES, {chatId: chatId, timeRangeBegin: timeRangeBegin});
   }
 
   sendMessageWithRating(message: Message): Promise<Document> {
