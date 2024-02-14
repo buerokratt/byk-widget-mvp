@@ -17,6 +17,7 @@ export interface ChatState {
   isChatOpen: boolean;
   chatStatus: CHAT_STATUS | null;
   customerSupportId: string;
+  lastReadMessageTimestamp: string | null;
   messages: Message[];
   messageQueue: Message[];
   newMessagesAmount: number;
@@ -47,6 +48,7 @@ const initialState: ChatState = {
   isChatOpen: false,
   chatStatus: null,
   customerSupportId: '',
+  lastReadMessageTimestamp: null,
   messages: [],
   messageQueue: [],
   newMessagesAmount: 0,
@@ -220,6 +222,7 @@ export const chatSlice = createSlice({
         return;
       }
       state.messages = newMessagesList;
+      state.lastReadMessageTimestamp = new Date().toISOString();
       state.newMessagesAmount += receivedMessages.length;
       setToSessionStorage('newMessagesAmount', state.newMessagesAmount);
 
@@ -250,6 +253,7 @@ export const chatSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder.addCase(initChat.pending, (state) => {
+      state.lastReadMessageTimestamp = new Date().toISOString();
       state.loading = true;
     });
     builder.addCase(initChat.fulfilled, (state, action) => {
@@ -264,6 +268,7 @@ export const chatSlice = createSlice({
     });
     builder.addCase(getChatMessages.fulfilled, (state, action) => {
       if (!action.payload) return;
+      state.lastReadMessageTimestamp = new Date().toISOString();
       state.messages = action.payload;
       state.chatMode = getChatModeBasedOnLastMessage(state.messages);
     });

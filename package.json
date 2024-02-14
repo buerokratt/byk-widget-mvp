@@ -79,7 +79,7 @@
     "lint:fix": "npm run lint -- --fix",
     "prettier:check": "prettier --check \"{,src/**/,webpack/}*.{json,yml,html,js,ts,tsx,css,scss}\"",
     "prettier:format": "prettier --write \"{,src/**/,webpack/}*.{json,yml,html,js,ts,tsx,css,scss}\"",
-    "prepare": "husky install && chmod a+x .husky/pre-push .husky/pre-commit",
+    "prepare": " ",
     "webpack": "webpack"
   },
   "browserslist": {

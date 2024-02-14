@@ -1,24 +1,18 @@
-import { RuuterResponse } from '../model/ruuter-response-model';
-
-const notificationNodeUrl = window._env_.NOTIFICATION_NODE_URL;
-
 const sse = <T>(url: string, onMessage: (data: T) => void): EventSource => {
-  const eventSource = new EventSource(`${notificationNodeUrl}/sse/notifications${url}`, { withCredentials: true });
+  const eventSource = new EventSource(`${window._env_.NOTIFICATION_NODE_URL}/sse/notifications${url}`);
 
   eventSource.onmessage = (event: MessageEvent) => {
     const response = JSON.parse(event.data);
 
-    if (response.statusCodeValue === 200) {
-      const ruuterResponse = response.body as RuuterResponse;
-      if (ruuterResponse?.data)
-        onMessage(Object.values(ruuterResponse.data)[0] as T);
+    if (response != undefined) {
+      onMessage(Object.values(response)[0] as T);
     }
   };
 
   eventSource.onopen = () => {
     console.log('SSE connection opened, url:', url);
   };
-
+  
   eventSource.onerror = () => {
     console.error('SSE error, url:', url);
   };

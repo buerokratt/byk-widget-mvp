@@ -20,6 +20,7 @@ export const initialChatState: ChatState = {
   messageQueue: [],
   eventMessagesToHandle: [],
   chatStatus: null,
+  lastReadMessageTimestamp: null,
   contactMsgId: '',
   estimatedWaiting: {
     isActive: false,
