@@ -14,13 +14,6 @@ const useGetNewMessages = (): void => {
   const [sseUrl, setSseUrl] = useState('');
   const [lastReadMessageTimestampValue, setLastReadMessageTimestampValue] = useState('');
 
-  const onMessage = useCallback((messages: Message[]) => {
-    const newDisplayableMessages = messages.filter(notGreetingMessages);
-    const stateChangingEventMessages = messages.filter(isStateChangingEventMessage);
-    dispatch(addMessagesToDisplay(newDisplayableMessages));
-    dispatch(handleStateChangingEventMessages(stateChangingEventMessages));
-  }, [dispatch]);
-
   useEffect(() => {
     if(lastReadMessageTimestamp && !lastReadMessageTimestampValue){
       setLastReadMessageTimestampValue(lastReadMessageTimestamp);
@@ -35,14 +28,6 @@ const useGetNewMessages = (): void => {
       setSseUrl(`/${chatId}`);
     }
   }, [isChatEnded, chatId, lastReadMessageTimestampValue]);
-
-  useEffect(() => {
-    const events = sseUrl ? sse(sseUrl, onMessage) : null;
-  
-    return () => { 
-      events?.close();
-    }
-  }, [sseUrl]);
 
   useEffect(() => {
     let events: EventSource | undefined;
