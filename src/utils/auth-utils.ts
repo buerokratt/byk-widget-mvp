@@ -8,14 +8,12 @@ export function redirectToTim() {
 
 export function redirectIfComeBackFromTim(callback: any) {
   const redirectPath = getRedirectPath();
-  const hasJWTCookie = document.cookie.indexOf('JWTTOKEN') != -1;
-  if (redirectPath && hasJWTCookie) {
-    setTimeout(async () => {
+  if (redirectPath) {
+      setTimeout(async () => {
       removeRedirectPath();
-      await widgetService.authenticateUser();
-      await callback?.();
-      window.location.assign(redirectPath);
-    }, 500);
+      widgetService.authenticateUser();
+      callback()
+     }, 500);
   }
 }
 
