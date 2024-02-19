@@ -68,7 +68,7 @@ export enum RUUTER_ENDPOINTS {
   SEND_MESSAGE_WITH_NEW_EVENT = '/post-message-with-new-event',
   REMOVE_CHAT_FORWARDING_VALUE = '/remove-chat-forwarding-value',
   GENERATE_FORWARDING_REQUEST = '/origin-forward',
-  AUTHENTICATE_USER = '/end-user-id-name',
+  AUTHENTICATE_USER = '/cs-end-user-id-name',
   GET_NEW_MESSAGES = '/get-new-messages',
 }
 
