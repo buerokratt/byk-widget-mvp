@@ -17,6 +17,7 @@ const PermissionMessage = (props: { message: Message }): JSX.Element => {
       event: accepted ? CHAT_EVENTS.ASK_PERMISSION_ACCEPTED : CHAT_EVENTS.ASK_PERMISSION_REJECTED,
       authorTimestamp: new Date().toISOString(),
       authorRole: AUTHOR_ROLES.END_USER,
+      content: '',
     };
     dispatch(updateMessage(responseMessage));
     dispatch(sendMessageWithNewEvent(responseMessage));

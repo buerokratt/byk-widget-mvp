@@ -1,37 +1,49 @@
-import React, { useState } from 'react';
-import { useTranslation } from 'react-i18next';
-import styled from 'styled-components';
-import { InputText } from 'primereact/inputtext';
-import useChatSelector from '../../hooks/use-chat-selector';
-import { useAppDispatch } from '../../store';
-import { AUTHOR_ROLES, CHAT_EVENTS, EMAIL_REGEX, PHONE_NR_REGEX, StyledButtonType } from '../../constants';
-import { sendMessageWithNewEvent, sendNewMessage, setShowContactForm, setEmailAdress, setPhoneNumber, updateMessage } from '../../slices/chat-slice';
-import { Message } from '../../model/message-model';
-import StyledButton from '../styled-components/styled-button';
+import React, { useState } from "react";
+import { useTranslation } from "react-i18next";
+import styled from "styled-components";
+import { InputText } from "primereact/inputtext";
+import useChatSelector from "../../hooks/use-chat-selector";
+import { useAppDispatch } from "../../store";
+import {
+  AUTHOR_ROLES,
+  CHAT_EVENTS,
+  EMAIL_REGEX,
+  PHONE_NR_REGEX,
+  StyledButtonType,
+} from "../../constants";
+import {
+  sendMessageWithNewEvent,
+  setShowContactForm,
+  setEmailAdress,
+  setPhoneNumber,
+  updateMessage,
+} from "../../slices/chat-slice";
+import { Message } from "../../model/message-model";
+import StyledButton from "../styled-components/styled-button";
 
 const EndUserContacts = (): JSX.Element => {
   const { endUserContacts, chatId, contactMsgId } = useChatSelector();
   const dispatch = useAppDispatch();
   const { t } = useTranslation();
-  const [invalidMessage, setInvalidMessage] = useState('');
+  const [invalidMessage, setInvalidMessage] = useState("");
 
   const validateInput = () => {
     if (!endUserContacts.phoneNr && !endUserContacts.mailAddress) {
-      setInvalidMessage(t('widget.contacts.contact.invalid.fields'));
+      setInvalidMessage(t("widget.contacts.contact.invalid.fields"));
       return false;
     }
 
     if (!new RegExp(PHONE_NR_REGEX).test(endUserContacts.phoneNr)) {
-      setInvalidMessage(t('widget.contacts.contact.invalid.phone'));
+      setInvalidMessage(t("widget.contacts.contact.invalid.phone"));
       return false;
     }
 
     if (!new RegExp(EMAIL_REGEX).test(endUserContacts.mailAddress)) {
-      setInvalidMessage(t('widget.contacts.contact.invalid.email'));
+      setInvalidMessage(t("widget.contacts.contact.invalid.email"));
       return false;
     }
 
-    setInvalidMessage('');
+    setInvalidMessage("");
     return true;
   };
 
@@ -42,6 +54,7 @@ const EndUserContacts = (): JSX.Element => {
       chatId,
       authorRole: AUTHOR_ROLES.END_USER,
       authorTimestamp: new Date().toISOString(),
+      content: "",
       event: CHAT_EVENTS.CONTACT_INFORMATION_REJECTED,
     };
     dispatch(updateMessage(newMsg));
@@ -54,19 +67,30 @@ const EndUserContacts = (): JSX.Element => {
     if (validateInput()) {
       let message;
       if (endUserContacts.phoneNr && endUserContacts.mailAddress) {
-        message = t('chatMessage.email-and-phone-template', { email: endUserContacts.mailAddress, phoneNr: endUserContacts.phoneNr });
-      } else if (endUserContacts.mailAddress) message = t('chatMessage.email-only-template', { email: endUserContacts.mailAddress });
-      else message = t('chatMessage.phone-only-template', { phoneNr: endUserContacts.phoneNr });
+        message = t("chatMessage.email-and-phone-template", {
+          email: endUserContacts.mailAddress,
+          phoneNr: endUserContacts.phoneNr,
+        });
+      } else if (endUserContacts.mailAddress)
+        message = t("chatMessage.email-only-template", {
+          email: endUserContacts.mailAddress,
+        });
+      else
+        message = t("chatMessage.phone-only-template", {
+          phoneNr: endUserContacts.phoneNr,
+        });
 
       const newMsg: Message = {
         chatId,
+        id: contactMsgId,
         authorRole: AUTHOR_ROLES.END_USER,
         authorTimestamp: new Date().toISOString(),
         content: message,
         event: CHAT_EVENTS.CONTACT_INFORMATION_FULFILLED,
       };
-      dispatch(sendNewMessage(newMsg));
+      dispatch(sendMessageWithNewEvent(newMsg));
       dispatch(setShowContactForm(false));
+      newMsg.content = "";
     }
   };
 
@@ -74,26 +98,28 @@ const EndUserContacts = (): JSX.Element => {
     <EndUserContactsStyle>
       <form>
         <div className="container">
-          <h3 className="form-header">{t('widget.contacts.contact.header')}</h3>
-          {invalidMessage && <p className="missing-feeback">{invalidMessage}</p>}
+          <h3 className="form-header">{t("widget.contacts.contact.header")}</h3>
+          {invalidMessage && (
+            <p className="missing-feeback">{invalidMessage}</p>
+          )}
           <div className="form-body">
             <div className="email-group">
-              <h5> {t('widget.contacts.contact.mail.label')}</h5>
+              <h5> {t("widget.contacts.contact.mail.label")}</h5>
               <InputText
                 id="email-input"
                 className="email-input"
-                placeholder={t('widget.contacts.contact.mail.placeholder')}
+                placeholder={t("widget.contacts.contact.mail.placeholder")}
                 pattern={EMAIL_REGEX}
                 value={endUserContacts.mailAddress}
                 onChange={(e) => dispatch(setEmailAdress(e.target.value))}
               />
             </div>
             <div className="phone-nr-group">
-              <h5>{t('widget.contacts.contact.phone.label')}</h5>
+              <h5>{t("widget.contacts.contact.phone.label")}</h5>
               <InputText
                 className="phone-nr-input"
                 id="phone-nr-input"
-                placeholder={t('widget.contacts.contact.phone.placeholder')}
+                placeholder={t("widget.contacts.contact.phone.placeholder")}
                 pattern={PHONE_NR_REGEX}
                 value={endUserContacts.phoneNr}
                 onChange={(e) => dispatch(setPhoneNumber(e.target.value))}
@@ -101,11 +127,17 @@ const EndUserContacts = (): JSX.Element => {
             </div>
           </div>
           <div className="form-footer">
-            <StyledButton styleType={StyledButtonType.GRAY} onClick={(e) => declineForm(e)}>
-              {t('widget.contacts.contact.close.label')}
+            <StyledButton
+              styleType={StyledButtonType.GRAY}
+              onClick={(e) => declineForm(e)}
+            >
+              {t("widget.contacts.contact.close.label")}
             </StyledButton>
-            <StyledButton styleType={StyledButtonType.GRAY} onClick={(e) => submitForm(e)}>
-              {t('widget.contacts.contact.submit.label')}
+            <StyledButton
+              styleType={StyledButtonType.GRAY}
+              onClick={(e) => submitForm(e)}
+            >
+              {t("widget.contacts.contact.submit.label")}
             </StyledButton>
           </div>
         </div>
