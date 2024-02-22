@@ -3,7 +3,6 @@ import { useAppDispatch } from "../store";
 import { endChat } from "../slices/chat-slice";
 import useChatSelector from "./use-chat-selector";
 import { isRedirectPathEmpty } from "../utils/auth-utils";
-import { getFromLocalStorage, setToLocalStorage } from "../utils/local-storage-utils";
 
 const useReloadChatEndEffect = () => {
   const { chatId } = useChatSelector();
@@ -11,9 +10,9 @@ const useReloadChatEndEffect = () => {
 
   useEffect(() => {
     const handleBeforeUnload = () => {
-      const sessions = getFromLocalStorage("sessions");
+      const sessions = localStorage.getItem("sessions");
       if (chatId && isRedirectPathEmpty() && sessions && parseInt(sessions) === 1) {
-        setToLocalStorage("sessions", "1");
+        localStorage.setItem("sessions", "1");
         dispatch(endChat());
       }
     };
