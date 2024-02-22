@@ -65,7 +65,6 @@ const App: FC = () => {
   useEffect(() => {
     const storageHandler = () => {
       const storedData = getFromLocalStorage(SESSION_STORAGE_CHAT_ID_KEY);
-      console.log("storedData", storedData);
       if (storedData === null) {
         setChatId("");
         dispatch(setChatId(""));
