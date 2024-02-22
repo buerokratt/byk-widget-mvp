@@ -1,7 +1,7 @@
 import { DateTime } from 'luxon';
 import { Message } from '../model/message-model';
 import { CHAT_EVENTS, SESSION_STORAGE_CHAT_ID_KEY } from '../constants';
-import { setToSessionStorage } from './session-storage-utils';
+import { setToLocalStorage } from './local-storage-utils';
 
 export const findMatchingMessageFromMessageList = (messageToMatch: Message, messages: Message[]): Message | undefined =>
   messages.find(
@@ -22,6 +22,6 @@ export const notGreetingMessages = (msg: Message): boolean =>
   msg.event !== CHAT_EVENTS.GREETING;
 
 export const clearStateVariablesFromSessionStorage = (): void => {
-  setToSessionStorage(SESSION_STORAGE_CHAT_ID_KEY, null);
-  setToSessionStorage('newMessagesAmount', 0);
+  setToLocalStorage(SESSION_STORAGE_CHAT_ID_KEY, null);
+  setToLocalStorage("newMessagesAmount", 0);
 };
