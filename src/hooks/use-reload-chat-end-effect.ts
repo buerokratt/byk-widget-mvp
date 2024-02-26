@@ -10,7 +10,9 @@ const useReloadChatEndEffect = () => {
 
   useEffect(() => {
     const handleBeforeUnload = () => {
-      if (chatId && isRedirectPathEmpty()) {
+      const sessions = localStorage.getItem("sessions");
+      if (chatId && isRedirectPathEmpty() && sessions && parseInt(sessions) === 1) {
+        localStorage.setItem("sessions", "1");
         dispatch(endChat());
       }
     };

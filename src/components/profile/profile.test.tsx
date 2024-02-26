@@ -2,12 +2,12 @@ import React from 'react';
 import { screen } from '@testing-library/react';
 import { Provider } from 'react-redux';
 import { configureStore, EnhancedStore } from '@reduxjs/toolkit';
-import { setToSessionStorage } from '../../utils/session-storage-utils';
 import { render } from '../../utils/test-utils';
 import Profile from './profile';
 import chatReducer from '../../slices/chat-slice';
 import widgetReducer from '../../slices/widget-slice';
 import authenticationReducer from '../../slices/authentication-slice';
+import { setToLocalStorage } from '../../utils/local-storage-utils';
 
 let emptyStore: EnhancedStore;
 
@@ -47,7 +47,7 @@ describe('Profile component', () => {
   });
 
   it('renders new messages bubble', () => {
-    setToSessionStorage('newMessagesAmount', 1);
+    setToLocalStorage("newMessagesAmount", 1);
     render(
       <Provider store={emptyStore}>
         <Profile />

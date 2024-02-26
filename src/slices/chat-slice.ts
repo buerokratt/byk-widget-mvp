@@ -2,10 +2,10 @@ import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { Message } from '../model/message-model';
 import ChatService from '../services/chat-service';
 import { AUTHOR_ROLES, CHAT_EVENTS, CHAT_STATUS, ERROR_MESSAGE, SESSION_STORAGE_CHAT_ID_KEY, CHAT_MODES } from '../constants';
-import { getFromSessionStorage, setToSessionStorage } from '../utils/session-storage-utils';
 import { Chat } from '../model/chat-model';
 import { clearStateVariablesFromSessionStorage, findMatchingMessageFromMessageList } from '../utils/state-management-utils';
 import { getChatModeBasedOnLastMessage } from '../utils/chat-utils';
+import { getFromLocalStorage, setToLocalStorage } from '../utils/local-storage-utils';
 
 export interface EstimatedWaiting {
   isActive: boolean;
@@ -159,7 +159,7 @@ export const chatSlice = createSlice({
       state.messages.push(action.payload);
     },
     setIsChatOpen: (state, action: PayloadAction<boolean>) => {
-      state.chatId = getFromSessionStorage(SESSION_STORAGE_CHAT_ID_KEY);
+      state.chatId = getFromLocalStorage(SESSION_STORAGE_CHAT_ID_KEY);
       state.isChatOpen = action.payload;
       state.newMessagesAmount = 0;
     },
@@ -224,7 +224,7 @@ export const chatSlice = createSlice({
       state.messages = newMessagesList;
       state.lastReadMessageTimestamp = new Date().toISOString();
       state.newMessagesAmount += receivedMessages.length;
-      setToSessionStorage('newMessagesAmount', state.newMessagesAmount);
+      setToLocalStorage('newMessagesAmount', state.newMessagesAmount);
 
       state.chatMode = getChatModeBasedOnLastMessage(state.messages);
     },

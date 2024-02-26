@@ -5,12 +5,12 @@ import { setIsChatOpen } from '../../slices/chat-slice';
 import Buerokratt from '../../static/icons/buerokratt.svg';
 import { useAppDispatch } from '../../store';
 import styles from './profile.module.scss';
-import { getFromSessionStorage } from '../../utils/session-storage-utils';
+import { getFromLocalStorage } from '../../utils/local-storage-utils';
 
 export const Profile = (): JSX.Element => {
   const { t } = useTranslation();
   const dispatch = useAppDispatch();
-  const newMessagesAmount = getFromSessionStorage('newMessagesAmount');
+  const newMessagesAmount = getFromLocalStorage("newMessagesAmount");
 
   const openChat = () => {
     dispatch(setIsChatOpen(true));
