@@ -9,11 +9,14 @@ export function redirectToTim() {
 export function redirectIfComeBackFromTim(callback: any) {
   const redirectPath = getRedirectPath();
   if (redirectPath) {
-      setTimeout(async () => {
+    setTimeout(async () => {
+      if (window.location.href != redirectPath) {
+        window.location.replace(redirectPath);
+      }
       removeRedirectPath();
       widgetService.authenticateUser();
-      callback()
-     }, 500);
+      callback();
+    }, 500);
   }
 }
 
