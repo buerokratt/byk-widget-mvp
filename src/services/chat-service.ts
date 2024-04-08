@@ -69,6 +69,14 @@ class ChatService {
   generateForwardingRequest(): Promise<Chat[]> {
     return http.post(RUUTER_ENDPOINTS.GENERATE_FORWARDING_REQUEST);
   }
+
+  addChatToTerminationQueue(chatId: string): Promise<void> {
+    return http.post(RUUTER_ENDPOINTS.ADD_CHAT_TO_TERMINATION_QUEUE, { chatId });
+  }
+
+  removeChatFromTerminationQueue(chatId: string): Promise<void> {
+    return http.post(RUUTER_ENDPOINTS.REMOVE_CHAT_FROM_TERMINATION_QUEUE, { chatId });
+  }
 }
 
 export default new ChatService();

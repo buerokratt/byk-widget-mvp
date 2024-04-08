@@ -3,9 +3,10 @@ import { Message } from '../model/message-model';
 import ChatService from '../services/chat-service';
 import { AUTHOR_ROLES, CHAT_EVENTS, CHAT_STATUS, ERROR_MESSAGE, SESSION_STORAGE_CHAT_ID_KEY, CHAT_MODES } from '../constants';
 import { Chat } from '../model/chat-model';
-import { clearStateVariablesFromSessionStorage, findMatchingMessageFromMessageList } from '../utils/state-management-utils';
+import { clearStateVariablesFromLocalStorage, findMatchingMessageFromMessageList } from '../utils/state-management-utils';
 import { getChatModeBasedOnLastMessage } from '../utils/chat-utils';
 import { getFromLocalStorage, setToLocalStorage } from '../utils/local-storage-utils';
+import { isChatAboutToBeTerminated, wasPageReloaded } from '../utils/browser-utils';
 
 export interface EstimatedWaiting {
   isActive: boolean;
@@ -147,11 +148,42 @@ export const removeChatForwardingValue = createAsyncThunk('chat/removeChatForwar
 
 export const generateForwardingRequest = createAsyncThunk('chat/generateForwardingRequest', async () => ChatService.generateForwardingRequest());
 
+export const addChatToTerminationQueue = createAsyncThunk('chat/addChatToTerminationQueue', async (args, thunkApi) => {  
+  const { chat } = thunkApi.getState() as { chat: ChatState };
+
+  sessionStorage.setItem('terminationTime', Date.now().toString());
+  localStorage.setItem('previousChatId', chat.chatId ?? '');
+
+  thunkApi.dispatch(resetState());
+
+  if(chat.chatId) {
+    return ChatService.addChatToTerminationQueue(chat.chatId);
+  }
+});
+
+export const removeChatFromTerminationQueue = createAsyncThunk('chat/removeChatFromTerminationQueue', async (args, thunkApi) => {
+  if(!wasPageReloaded() || !isChatAboutToBeTerminated()) {
+    return null;
+  }
+
+  const chatId = localStorage.getItem('previousChatId');
+  setToLocalStorage(SESSION_STORAGE_CHAT_ID_KEY, chatId);
+  sessionStorage.removeItem('terminationTime');
+
+  if(chatId) {
+    thunkApi.dispatch(resetStateWithValue(chatId));
+    return ChatService.removeChatFromTerminationQueue(chatId);
+  }
+});
+
 export const chatSlice = createSlice({
   name: 'chat',
   initialState,
   reducers: {
     resetState: () => initialState,
+    resetStateWithValue: (state, action: PayloadAction<string>) => {
+      state.chatId = action.payload;
+    },
     setChatId: (state, action: PayloadAction<string>) => {
       state.chatId = action.payload;
     },
@@ -240,10 +272,10 @@ export const chatSlice = createSlice({
             break;
           case CHAT_EVENTS.ANSWERED:
             state.chatStatus = CHAT_STATUS.ENDED;
-            clearStateVariablesFromSessionStorage();
+            clearStateVariablesFromLocalStorage();
             break;
           case CHAT_EVENTS.TERMINATED:
-            clearStateVariablesFromSessionStorage();
+            clearStateVariablesFromLocalStorage();
             state.chatStatus = CHAT_STATUS.ENDED;
             break;
           default:
@@ -285,7 +317,14 @@ export const chatSlice = createSlice({
       state.chatStatus = CHAT_STATUS.ENDED;
       state.feedback.isFeedbackMessageGiven = false;
       state.feedback.isFeedbackRatingGiven = false;
-      clearStateVariablesFromSessionStorage();
+      clearStateVariablesFromLocalStorage();
+      localStorage.removeItem('previousChatId');
+    });
+    builder.addCase(addChatToTerminationQueue.fulfilled, (state) => {
+      state.chatStatus = CHAT_STATUS.ENDED;
+      state.feedback.isFeedbackMessageGiven = false;
+      state.feedback.isFeedbackRatingGiven = false;
+      clearStateVariablesFromLocalStorage();
     });
     builder.addCase(sendChatNpmRating.rejected, (state) => {
       state.errorMessage = ERROR_MESSAGE;
@@ -325,6 +364,7 @@ export const {
   setChat,
   addMessagesToDisplay,
   handleStateChangingEventMessages,
+  resetStateWithValue,
 } = chatSlice.actions;
 
 export default chatSlice.reducer;
