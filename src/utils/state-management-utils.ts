@@ -21,7 +21,7 @@ export const isStateChangingEventMessage = (msg: Message): boolean =>
 export const notGreetingMessages = (msg: Message): boolean => 
   msg.event !== CHAT_EVENTS.GREETING;
 
-export const clearStateVariablesFromSessionStorage = (): void => {
+export const clearStateVariablesFromLocalStorage = (): void => {
   setToLocalStorage(SESSION_STORAGE_CHAT_ID_KEY, null);
   setToLocalStorage("newMessagesAmount", 0);
 };
