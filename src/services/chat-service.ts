@@ -1,9 +1,10 @@
 import http, { sendBackgroundRequest } from './http-service';
 import { Message } from '../model/message-model';
 import { Chat } from '../model/chat-model';
-import { RUUTER_ENDPOINTS } from '../constants';
+import { NOTIFICATION_NODE_ENDPOINTS, RUUTER_ENDPOINTS } from '../constants';
 import { EndUserTechnicalData } from '../model/chat-ini-model';
 import { EstimatedWaiting } from '../slices/chat-slice';
+import axios from 'axios';
 
 interface Document {
   _id: string;
@@ -71,11 +72,13 @@ class ChatService {
   }
 
   addChatToTerminationQueue(chatId: string): Promise<void> {
-    return http.post(RUUTER_ENDPOINTS.ADD_CHAT_TO_TERMINATION_QUEUE, { chatId });
+    const url = `${window._env_.NOTIFICATION_NODE_URL}/${NOTIFICATION_NODE_ENDPOINTS.ADD_CHAT_TO_TERMINATION_QUEUE}`;
+    return axios.post(url, { chatId });
   }
 
   removeChatFromTerminationQueue(chatId: string): Promise<void> {
-    return http.post(RUUTER_ENDPOINTS.REMOVE_CHAT_FROM_TERMINATION_QUEUE, { chatId });
+    const url = `${window._env_.NOTIFICATION_NODE_URL}/${NOTIFICATION_NODE_ENDPOINTS.REMOVE_CHAT_FROM_TERMINATION_QUEUE}`;
+    return axios.post(url, { chatId });
   }
 }
 
