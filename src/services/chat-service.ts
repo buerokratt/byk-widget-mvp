@@ -71,9 +71,8 @@ class ChatService {
     return http.post(RUUTER_ENDPOINTS.GENERATE_FORWARDING_REQUEST);
   }
 
-  addChatToTerminationQueue(chatId: string): Promise<void> {
-    return notificationHttp.post(NOTIFICATION_NODE_ENDPOINTS.ADD_CHAT_TO_TERMINATION_QUEUE, { chatId });
-    // sendNotificationBackgroundRequest(NOTIFICATION_NODE_ENDPOINTS.ADD_CHAT_TO_TERMINATION_QUEUE, { chatId })
+  addChatToTerminationQueue(chatId: string): void {
+    sendNotificationBackgroundRequest(NOTIFICATION_NODE_ENDPOINTS.ADD_CHAT_TO_TERMINATION_QUEUE, { chatId })
   }
 
   removeChatFromTerminationQueue(chatId: string): Promise<void> {
