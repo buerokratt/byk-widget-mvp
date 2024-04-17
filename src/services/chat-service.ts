@@ -75,8 +75,8 @@ class ChatService {
     sendNotificationBackgroundRequest(NOTIFICATION_NODE_ENDPOINTS.ADD_CHAT_TO_TERMINATION_QUEUE, { chatId })
   }
 
-  removeChatFromTerminationQueue(chatId: string): Promise<void> {
-    return notificationHttp.post(NOTIFICATION_NODE_ENDPOINTS.REMOVE_CHAT_FROM_TERMINATION_QUEUE, { chatId });
+  removeChatFromTerminationQueue(chatId: string): void {
+    sendNotificationBackgroundRequest(NOTIFICATION_NODE_ENDPOINTS.REMOVE_CHAT_FROM_TERMINATION_QUEUE, { chatId })
   }
 }
 

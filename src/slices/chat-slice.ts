@@ -157,7 +157,7 @@ export const addChatToTerminationQueue = createAsyncThunk('chat/addChatToTermina
   thunkApi.dispatch(resetState());
 
   if(chat.chatId) {
-    return ChatService.addChatToTerminationQueue(chat.chatId);
+    ChatService.addChatToTerminationQueue(chat.chatId);
   }
 });
 
@@ -171,8 +171,8 @@ export const removeChatFromTerminationQueue = createAsyncThunk('chat/removeChatF
   sessionStorage.removeItem('terminationTime');
 
   if(chatId) {
+    ChatService.removeChatFromTerminationQueue(chatId);
     thunkApi.dispatch(resetStateWithValue(chatId));
-    return ChatService.removeChatFromTerminationQueue(chatId);
   }
 });
 
