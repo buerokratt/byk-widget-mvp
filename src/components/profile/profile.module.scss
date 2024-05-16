@@ -27,3 +27,8 @@
   font-family: $font-chat;
   border-radius: 50%;
 }
+
+.logo {
+  filter: brightness(0) invert(1);
+  image-rendering: auto;
+}

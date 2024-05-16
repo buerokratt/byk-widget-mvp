@@ -36,7 +36,7 @@ export const Profile = (): JSX.Element => {
         onClick={openChat}
         tabIndex={0}
       >
-        <img src={Buerokratt} alt="Buerokratt logo" style={{ filter: 'brightness(0) invert(1)', imageRendering: 'auto' }} loading='eager'/>
+        <img src={Buerokratt} alt="Buerokratt logo" className={styles.logo} loading='eager'/>
       </div>
       {newMessagesAmount !== null && parseInt(newMessagesAmount, 10) > 0 ? <span className={styles.bubble}>{newMessagesAmount}</span> : null}
     </motion.div>
