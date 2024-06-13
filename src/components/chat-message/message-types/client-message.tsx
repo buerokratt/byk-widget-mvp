@@ -24,7 +24,7 @@ const ClientMessage = (props: { message: Message }): JSX.Element => {
           <img src={PersonIcon} alt="Person icon" />
         </div>
         <div className={styles.content}>
-          <Linkifier message={content} />
+          <Linkifier message={decodeURIComponent(content ?? "")} />
         </div>
       </div>
     </motion.div>
