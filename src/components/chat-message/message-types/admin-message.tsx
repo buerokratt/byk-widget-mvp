@@ -43,7 +43,7 @@ const AdminMessage = ({ message }: { message: Message }): JSX.Element => {
             <img src={RobotIcon} alt="Robot icon" />
           </div>
           <div className={styles.content}>
-            <Linkifier message={message.content} />
+            <Linkifier message={decodeURIComponent(message.content ?? "")} />
           </div>
           <div
             className={classNames(
