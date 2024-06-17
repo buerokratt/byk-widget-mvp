@@ -1,4 +1,4 @@
-@import '../../scss/main';
+@import "../../scss/main";
 
 .message {
   margin: 0.4em;
@@ -173,6 +173,8 @@
       .content {
         border-radius: 6px 48px 48px 29px;
         background-color: $color-primary;
+        word-break: break-word;
+        white-space: pre-wrap;
       }
 
       .icon {
@@ -191,6 +193,8 @@
       text-align: right;
       border-radius: 48px 6px 29px 48px;
       background-color: $color-secondary;
+      word-break: break-word;
+      white-space: pre-wrap;
     }
 
     .icon {
