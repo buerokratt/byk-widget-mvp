@@ -72,6 +72,11 @@ export enum RUUTER_ENDPOINTS {
   GET_NEW_MESSAGES = '/get-new-messages',
 }
 
+export enum NOTIFICATION_NODE_ENDPOINTS {
+  ADD_CHAT_TO_TERMINATION_QUEUE = '/add-chat-to-termination-queue',
+  REMOVE_CHAT_FROM_TERMINATION_QUEUE = '/remove-chat-from-termination-queue',
+}
+
 export enum StyledButtonType {
   LIGHT = 'LIGHT',
   GRAY = 'GRAY',

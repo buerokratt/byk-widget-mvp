@@ -1,19 +1,23 @@
 import { useEffect } from "react";
 import { useAppDispatch } from "../store";
-import { endChat } from "../slices/chat-slice";
+import { addChatToTerminationQueue, removeChatFromTerminationQueue } from "../slices/chat-slice";
 import useChatSelector from "./use-chat-selector";
 import { isRedirectPathEmpty } from "../utils/auth-utils";
+import { isLastSession } from "../utils/browser-utils";
 
 const useReloadChatEndEffect = () => {
   const { chatId } = useChatSelector();
   const dispatch = useAppDispatch();
 
   useEffect(() => {
+    dispatch(removeChatFromTerminationQueue());
+  }, []);
+
+  useEffect(() => {
     const handleBeforeUnload = () => {
-      const sessions = localStorage.getItem("sessions");
-      if (chatId && isRedirectPathEmpty() && sessions && parseInt(sessions) === 1) {
+      if (chatId && isRedirectPathEmpty() && isLastSession()) {
         localStorage.setItem("sessions", "1");
-        dispatch(endChat());
+        dispatch(addChatToTerminationQueue());
       }
     };
 

@@ -65,7 +65,9 @@ const App: FC = () => {
   useEffect(() => {
     const storageHandler = () => {
       const storedData = getFromLocalStorage(SESSION_STORAGE_CHAT_ID_KEY);
-      if (storedData === null) {
+      const previousChatId = getFromLocalStorage('previousChatId');
+
+      if (storedData === null && previousChatId === null) {
         setChatId("");
         dispatch(setChatId(""));
         dispatch(setIsChatOpen(false));
@@ -78,7 +80,7 @@ const App: FC = () => {
     return () => {
       window.removeEventListener("storage", storageHandler);
     };
-  }, [SESSION_STORAGE_CHAT_ID_KEY]);
+  }, []);
 
   useEffect(() => {
     const sessions = localStorage.getItem("sessions");
