@@ -15,7 +15,7 @@
     "linkify-react": "^3.0.3",
     "linkifyjs": "^3.0.3",
     "luxon": "^2.2.0",
-    "msw": "^0.35.0",
+    "msw": "^2.0.0",
     "overlayscrollbars": "^1.13.1",
     "overlayscrollbars-react": "^0.2.3",
     "primeicons": "^4.1.0",
