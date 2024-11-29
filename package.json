@@ -6,7 +6,7 @@
     "@babel/runtime": "^7.12.13",
     "@reduxjs/toolkit": "^1.6.2",
     "@types/styled-components": "^5.1.19",
-    "axios": "^0.22.0",
+    "axios": "^1.6.8",
     "classnames": "^2.3.1",
     "cross-env": "^7.0.3",
     "framer-motion": "4.1.11-beta.5",
@@ -15,7 +15,7 @@
     "linkify-react": "^3.0.3",
     "linkifyjs": "^3.0.3",
     "luxon": "^2.2.0",
-    "msw": "^0.35.0",
+    "msw": "^2.2.0",
     "overlayscrollbars": "^1.13.1",
     "overlayscrollbars-react": "^0.2.3",
     "primeicons": "^4.1.0",
@@ -29,7 +29,7 @@
     "redux": "^4.1.2",
     "resolve-url-loader": "^4.0.0",
     "sass": "^1.44.0",
-    "styled-components": "^5.3.3",
+    "styled-components": "^6.1.0",
     "web-vitals": "^1.1.2"
   },
   "devDependencies": {
